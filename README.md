@@ -3,6 +3,9 @@
 Web tool for searching relic combinations in **Nightreign** based on imported relics.
 
 ## Usage
+
+https://edge7481.github.io/Nightreign-Relic-Search/
+
 ### 1. Import Relics
 a .txt file of exported relics in the format from this mod [https://www.nexusmods.com/eldenringnightreign/mods/38](https://www.nexusmods.com/eldenringnightreign/mods/38). 
 ```
