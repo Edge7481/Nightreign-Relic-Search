@@ -3,6 +3,9 @@ import { parseOwnedItemsFromText } from "./utils/parseImport";
 import type { OwnedItem } from "./types";
 import effects from "./data/effects.json";
 import EffectSelector from "./components/EffectSelector";
+import ContainerSelector from "./components/ContainerSelector";
+import ItemFileUploader from "./components/ItemFileUploader";
+
 
 
 function App() {
@@ -23,28 +26,17 @@ function App() {
 
   return (
     <div>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Upload Item File</h1>
-        <input type="file" accept=".txt" onChange={handleFileUpload} className="mb-4" />
-
-        {ownedItems.length > 0 && (
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Parsed Items</h2>
-            <ul className="list-disc list-inside">
-              {ownedItems.map((item, index) => (
-                <li key={index}>
-                  <strong>{item.itemName}</strong> ({item.color}) – {item.relicSize} slots
-                  <ul className="ml-4 list-[circle]">
-                    {item.effects.map((effect, idx) => (
-                      <li key={idx}>{effect.effectName}</li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+      <div>
+        <ItemFileUploader
+          effectsData={effects}
+          onItemsParsed={(items) => setOwnedItems(items)}
+        />
       </div>
+
+      <div>
+        <ContainerSelector />
+      </div>
+
       <div >
         <EffectSelector />
       </div>
