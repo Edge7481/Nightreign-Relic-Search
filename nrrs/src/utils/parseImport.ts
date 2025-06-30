@@ -5,7 +5,7 @@ export function parseOwnedItemsFromText(
   effectsData: Record<string, Effect>
 ): OwnedItem[] {
   const lines = text.trim().split("\n");
-  const header = lines.shift(); // remove header
+  lines.shift(); // remove header
 
   const itemMap: Map<string, OwnedItem> = new Map();
 

@@ -53,15 +53,15 @@ export function findCombinations(
   );
 
   const results: OwnedItem[][] = [];
-    let searchCount = 0; // counts backtrack calls
+  let searchCount = 0; // counts backtrack calls
 
-    console.log(desiredEffects)
+  console.log(desiredEffects)
 
   // Helper to do cartesian product + pruning
   // TODO: prevent using the same relic multiple times
   function backtrack(slotIndex: number, currentSelection: OwnedItem[]): boolean {
     searchCount++;
-    if (searchCount % 10000 == 0){
+    if (searchCount % 10000 == 0) {
       console.log(searchCount)
     }
     if (searchCount > maxSearches) {

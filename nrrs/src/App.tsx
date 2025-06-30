@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { parseOwnedItemsFromText } from "./utils/parseImport";
 import Search from "./components/Search";
 import type { OwnedItem } from "./types";
 import effects from "./data/effects.json";
@@ -36,6 +35,9 @@ function App() {
 
   return (
     <div>
+      <div className="bg-yellow-100 text-yellow-800 p-4 text-center font-medium">
+        WIP, may not work as intended, use at your own discretion
+      </div>
       <div>
         <ItemFileUploader
           effectsData={effects}
@@ -46,10 +48,10 @@ function App() {
       </div>
       <div>
         <Search
-        ownedItems={ownedItems}
-        containerSlots={containerSlots}
-        effectCounts={effectCounts}
-      />
+          ownedItems={ownedItems}
+          containerSlots={containerSlots}
+          effectCounts={effectCounts}
+        />
       </div>
 
       <div>

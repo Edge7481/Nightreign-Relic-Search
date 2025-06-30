@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import type { OwnedItem, Effect } from "../types";
 import { parseOwnedItemsFromText } from "../utils/parseImport";
 
