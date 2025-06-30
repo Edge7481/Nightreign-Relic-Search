@@ -1,28 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { parseOwnedItemsFromText } from "./utils/parseImport";
+import Search from "./components/Search";
 import type { OwnedItem } from "./types";
 import effects from "./data/effects.json";
 import EffectSelector from "./components/EffectSelector";
 import ContainerSelector from "./components/ContainerSelector";
 import ItemFileUploader from "./components/ItemFileUploader";
+import { saveToStorage, loadFromStorage, STORAGE_KEYS } from "./utils/storage";
+
 
 
 
 function App() {
-  const [ownedItems, setOwnedItems] = useState<OwnedItem[]>([]);
+  //persistence
+  const [ownedItems, setOwnedItems] = useState<OwnedItem[]>(() =>
+    loadFromStorage(STORAGE_KEYS.ownedItems, [])
+  );
+  const [effectCounts, setEffectCounts] = useState<Record<string, number>>(
+    () => loadFromStorage(STORAGE_KEYS.effectCounts, {})
+  );
+  const [containerSlots, setContainerSlots] = useState<
+    ("Red" | "Green" | "Blue" | "Yellow" | "All")[]
+  >(() => loadFromStorage(STORAGE_KEYS.containerSlots, ["Red", "Green", "Blue"]));
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.ownedItems, ownedItems);
+  }, [ownedItems]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.effectCounts, effectCounts);
+  }, [effectCounts]);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const text = reader.result as string;
-      const parsedItems = parseOwnedItemsFromText(text, effects);
-      setOwnedItems(parsedItems);
-    };
-    reader.readAsText(file);
-  };
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.containerSlots, containerSlots);
+  }, [containerSlots]);
 
   return (
     <div>
@@ -30,15 +40,30 @@ function App() {
         <ItemFileUploader
           effectsData={effects}
           onItemsParsed={(items) => setOwnedItems(items)}
+          loadedCount={ownedItems.length}
+
         />
+      </div>
+      <div>
+        <Search
+        ownedItems={ownedItems}
+        containerSlots={containerSlots}
+        effectCounts={effectCounts}
+      />
       </div>
 
       <div>
-        <ContainerSelector />
+        <ContainerSelector
+          slotColors={containerSlots}
+          setSlotColors={setContainerSlots}
+        />
       </div>
 
       <div >
-        <EffectSelector />
+        <EffectSelector
+          effectCounts={effectCounts}
+          setEffectCounts={setEffectCounts}
+        />
       </div>
     </div>
   );

@@ -10,6 +10,9 @@ export function parseOwnedItemsFromText(
   const itemMap: Map<string, OwnedItem> = new Map();
 
   for (const line of lines) {
+    // Trim each part to remove trailing whitespace and \r
+    const parts = line.split("|").map((s) => s.trim());
+
     const [
       itemIndexStr,
       itemId,
@@ -22,7 +25,7 @@ export function parseOwnedItemsFromText(
       , // attribute
       , // attribute_adder
       color,
-    ] = line.split("|");
+    ] = parts;
 
     const effect: OwnedItemEffect = {
       effectSlot: Number(effectSlotStr),
@@ -39,7 +42,7 @@ export function parseOwnedItemsFromText(
         itemId,
         itemName,
         relicSize: Number(relicSizeStr),
-        color,
+        color,  // color is now trimmed
         characterSpecific: characterSpecific || null,
         effects: [effect],
       });
